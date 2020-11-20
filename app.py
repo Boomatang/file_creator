@@ -1,15 +1,16 @@
 from datetime import time
 from os.path import join, dirname
 from time import sleep
-
-from dotenv import load_dotenv
 import os
 
-# Create .env file path.
-dotenv_path = join(dirname(__file__), '.env')
-
-# Load file from the path.
-load_dotenv(dotenv_path)
+try:
+    from dotenv import load_dotenv
+    # Create .env file path.
+    dotenv_path = join(dirname(__file__), '.env')
+    # Load file from the path.
+    load_dotenv(dotenv_path)
+except ModuleNotFoundError:
+    print("No dotenv file found")
 
 # Accessing variables.
 COUNT = int(os.getenv('COUNT'))
