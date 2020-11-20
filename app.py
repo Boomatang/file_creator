@@ -14,19 +14,20 @@ except ModuleNotFoundError:
 
 # Accessing variables.
 COUNT = int(os.getenv('COUNT'))
-SIZE = int(os.getenv('SIZE'))
+SIZE = float(os.getenv('SIZE'))
 TRIES = int(os.getenv('TRIES'))
 SLEEP = float(os.getenv('SLEEP'))
 LOG = bool(os.getenv('LOG'))
+ALIVE = bool(os.getenv('ALIVE'))
 
 # Using variables.
 number = 0
 print("Creating dummy files")
 while number < COUNT:
-    with open(f"out/dummy_{number}", "wb") as out:
+    with open(f"out/{number}_dummy_{number}", "wb") as out:
         if LOG:
-            print(f"create file out/dummy{number}")
-        out.seek((1024 * 1024 * SIZE) - 1)
+            print(f"create file out/{number}_dummy{number}")
+        out.seek(int((1024 * 1024 * SIZE)) - 1)
         out.write(b'\0')
     number += 1
 
@@ -35,9 +36,14 @@ while TRIES > 0:
         print(f"Starting to update all files: {TRIES}")
     number = 0
     while number < COUNT:
-        with open(f"out/dummy_{number}", "a") as out:
+        with open(f"out/{number}_dummy_{number}", "a") as out:
             out.write("Dummy line\n")
         number += 1
 
     TRIES -= 1
     sleep(SLEEP)
+
+if ALIVE:
+    print("going to sleep forever")
+    while True:
+        sleep(SLEEP)
